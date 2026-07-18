@@ -4293,16 +4293,11 @@ class IchunkedTests(TestCase):
         expected = ['0123', '4567', '89']
         self.assertEqual(actual, expected)
 
-    def test_zero(self):
-        iterable = []
-        actual = [list(c) for c in mi.ichunked(iterable, 0)]
-        expected = []
-        self.assertEqual(actual, expected)
-
-    def test_negative(self):
-        iterable = count()
-        with self.assertRaises(ValueError):
-            [list(c) for c in mi.ichunked(iterable, -1)]
+    def test_nonpositive(self):
+        """n < 1 must raise a clear ValueError (not an islice leak)."""
+        for n in (0, -1):
+            with self.assertRaisesRegex(ValueError, 'n must be at least 1'):
+                [list(c) for c in mi.ichunked([1, 2, 3], n)]
 
     def test_out_of_order(self):
         iterable = map(str, count())

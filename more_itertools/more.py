@@ -3675,6 +3675,8 @@ def ichunked(iterable, n):
     [8, 9, 10, 11]
 
     """
+    if n < 1:
+        raise ValueError('n must be at least 1')
     iterator = iter(iterable)
     for first in iterator:
         rest = islice(iterator, n - 1)
