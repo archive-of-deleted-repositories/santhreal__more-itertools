@@ -605,6 +605,9 @@ def random_product(*iterables, repeat=1):
 
     """
     pools = tuple(map(tuple, iterables)) * repeat
+    # Empty product has no outcomes; match random.choice messaging via ValueError.
+    if not all(pools):
+        raise ValueError('Cannot choose from an empty sequence')
     return tuple(map(choice, pools))
 
 

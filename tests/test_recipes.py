@@ -606,6 +606,15 @@ class RandomProductTests(TestCase):
         self.assertEqual(len(n), len(nums))
         self.assertEqual(len(m), len(lets))
 
+    def test_empty_pool_raises(self):
+        """Empty pools have no product outcomes; raise ValueError not IndexError."""
+        self.assertRaises(ValueError, lambda: mi.random_product([]))
+        self.assertRaises(ValueError, lambda: mi.random_product([1, 2], []))
+        self.assertRaises(ValueError, lambda: mi.random_product([], [1, 2]))
+        # No iterables / repeat=0 still yields an empty tuple of choices.
+        self.assertEqual(mi.random_product(), ())
+        self.assertEqual(mi.random_product([1], repeat=0), ())
+
 
 class RandomPermutationTests(TestCase):
     """Tests for ``random_permutation()``"""
