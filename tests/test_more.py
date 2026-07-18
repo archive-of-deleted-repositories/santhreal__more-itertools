@@ -5212,6 +5212,11 @@ class ChunkedEvenTests(TestCase):
     def test_0(self):
         self._test_finite('', 3, [])
 
+    def test_nonpositive_n_raises(self):
+        for n in (0, -1, -5):
+            with self.assertRaisesRegex(ValueError, 'n must be at least 1'):
+                list(mi.chunked_even([1, 2, 3], n))
+
     def test_1(self):
         self._test_finite('A', 1, [['A']])
 
